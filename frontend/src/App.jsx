@@ -1,15 +1,8 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from './features/auth/Login';
-import Home from './pages/home/Home';
-
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+    <div style={{ padding: "40px", background: "#ddd" }}>
+      <h1>✅ Funciona App.jsx</h1>
+    </div>
   );
 }
 
