@@ -1,9 +1,9 @@
-package com.codebook.controller;
+package com.codebook.controller.libro;
 
-import com.codebook.model.Libro;
 import com.codebook.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.codebook.model.Libro;
 
 import java.util.List;
 

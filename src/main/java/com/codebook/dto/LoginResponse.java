@@ -2,7 +2,6 @@ package com.codebook.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import com.codebook.dto.LoginResponse;
 
 
 import java.util.Set;

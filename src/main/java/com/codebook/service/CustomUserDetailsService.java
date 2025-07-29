@@ -1,4 +1,4 @@
-package com.codebook.security;
+package com.codebook.service;
 
 import com.codebook.model.Usuario;
 import com.codebook.repository.UsuarioRepository;

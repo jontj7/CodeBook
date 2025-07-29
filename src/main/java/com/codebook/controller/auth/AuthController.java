@@ -1,4 +1,4 @@
-package com.codebook.controller;
+package com.codebook.controller.auth;
 
 import com.codebook.dto.LoginRequest;
 import com.codebook.dto.LoginResponse;
