@@ -1,50 +1,59 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ⬅️ importar navegación
-import { login } from "../../services/authService"; // ✅ sube dos niveles
+import { useNavigate } from "react-router-dom";
+import { login } from "../../services/authService";
 
-
-
-function Login() {
+const Login = () => {
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
-  const [mensaje, setMensaje] = useState("");
-  const navigate = useNavigate(); // ⬅️ hook para redireccionar
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const result = await login({ correo, contrasena });
 
-    if (result === "Login exitoso ✅") {
-      setMensaje(result);
-      setTimeout(() => {
-        navigate("/home"); // ⬅️ redirige al home
-      }, 1000); // espera 1s para mostrar el mensaje
-    } else {
-      setMensaje(result);
+    try {
+      const usuario = await login(correo, contrasena); // <- API devuelve directamente al usuario
+
+      // Guardar en localStorage
+      localStorage.setItem("usuario", JSON.stringify(usuario));
+
+      // Redirigir según el rol
+      if (usuario.roles.includes("ADMIN")) {
+        navigate("/admin-panel");
+      } else {
+        navigate("/home");
+      }
+    } catch (err) {
+      setError("Correo o contraseña incorrectos");
+      console.error("Error de login:", err);
     }
   };
 
   return (
-    <div className="login-container">
-      <h2>Iniciar sesión</h2>
-      <form onSubmit={handleSubmit}>
+    <div style={{ padding: "30px", maxWidth: "400px", margin: "auto" }}>
+      <h2>Iniciar Sesión</h2>
+      <form onSubmit={handleLogin}>
         <input
           type="email"
-          placeholder="Correo"
+          placeholder="Correo electrónico"
           value={correo}
           onChange={(e) => setCorreo(e.target.value)}
+          required
+          style={{ display: "block", width: "100%", marginBottom: "10px" }}
         />
         <input
           type="password"
           placeholder="Contraseña"
           value={contrasena}
           onChange={(e) => setContrasena(e.target.value)}
+          required
+          style={{ display: "block", width: "100%", marginBottom: "10px" }}
         />
-        <button type="submit">Ingresar</button>
+        <button type="submit" style={{ width: "100%" }}>Ingresar</button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
-      {mensaje && <p>{mensaje}</p>}
     </div>
   );
-}
+};
 
 export default Login;

@@ -1,8 +1,19 @@
-export default function Home() {
+import React from "react";
+
+const Home = () => {
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  console.log("Usuario cargado:", usuario);
+
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>Bienvenido a la Biblioteca Virtual 📚</h1>
-      <p>Has iniciado sesión correctamente.</p>
+    <div>
+      <h1>Test Home</h1>
+      {usuario ? (
+        <p>Bienvenido, {usuario.correo}</p>
+      ) : (
+        <p>No hay usuario guardado</p>
+      )}
     </div>
   );
-}
+};
+
+export default Home; // 🔥 ESTA LÍNEA ES CLAVE
