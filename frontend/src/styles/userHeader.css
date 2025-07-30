@@ -1,0 +1,73 @@
+.user-header {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background-color: #1c1c1c;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  z-index: 100;
+}
+
+.bell-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: white;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-name {
+  margin: 0;
+  font-weight: bold;
+}
+
+.user-role {
+  margin: 0;
+  font-size: 12px;
+  color: #aaa;
+}
+
+.arrow {
+  font-size: 18px;
+  margin-left: 5px;
+}
+.user-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  background: black;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  list-style: none;
+  padding: 10px 0;
+  width: 180px;
+  z-index: 100;
+}
+
+.user-dropdown li {
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.user-dropdown li:hover {
+  background-color: #f0f0f0;
+}
