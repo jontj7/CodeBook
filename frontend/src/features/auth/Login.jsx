@@ -1,50 +1,165 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ⬅️ importar navegación
-import { login } from "../../services/authService"; // ✅ sube dos niveles
+import { useNavigate } from "react-router-dom";
+import { login, register } from "../../services/authService";
+import "../../styles/login.css";
 
-
-
-function Login() {
+const Login = ({ onLoginSuccess }) => {
+  const [isLogin, setIsLogin] = useState(true);
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
-  const [mensaje, setMensaje] = useState("");
-  const navigate = useNavigate(); // ⬅️ hook para redireccionar
+  const [nombre, setNombre] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const result = await login({ correo, contrasena });
-
-    if (result === "Login exitoso ✅") {
-      setMensaje(result);
-      setTimeout(() => {
-        navigate("/home"); // ⬅️ redirige al home
-      }, 1000); // espera 1s para mostrar el mensaje
-    } else {
-      setMensaje(result);
+    try {
+      const usuario = await login(correo, contrasena);
+      localStorage.setItem("usuario", JSON.stringify(usuario));
+      if (onLoginSuccess) onLoginSuccess(usuario); // 🔥 notifica al padre
+      navigate("/home");
+    } catch (err) {
+      setError("Credenciales incorrectas");
     }
   };
 
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      await register(nombre, correo, contrasena);
+      setIsLogin(true);
+    } catch (err) {
+      setError("Error al registrar");
+    }
+  };
+
+  const animationClass = isLogin ? "bounceRight" : "bounceLeft";
+
   return (
-    <div className="login-container">
-      <h2>Iniciar sesión</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Correo"
-          value={correo}
-          onChange={(e) => setCorreo(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={contrasena}
-          onChange={(e) => setContrasena(e.target.value)}
-        />
-        <button type="submit">Ingresar</button>
-      </form>
-      {mensaje && <p>{mensaje}</p>}
-    </div>
+    <section className="user">
+      <div className="user_options-container">
+        <div className="user_options-text">
+          <div className="user_options-unregistered">
+            <h2 className="user_unregistered-title">¿No tienes cuenta?</h2>
+            <p className="user_unregistered-text">
+              Regístrate para usar la biblioteca virtual
+            </p>
+            <button
+              className="user_unregistered-signup"
+              onClick={() => setIsLogin(false)}
+            >
+              Sign up
+            </button>
+          </div>
+
+          <div className="user_options-registered">
+            <h2 className="user_registered-title">¿Ya tienes cuenta?</h2>
+            <p className="user_registered-text">
+              Inicia sesión para continuar
+            </p>
+            <button
+              className="user_registered-login"
+              onClick={() => setIsLogin(true)}
+            >
+              Login
+            </button>
+          </div>
+        </div>
+
+        <div className={`user_options-forms ${animationClass}`}>
+          {/* FORMULARIO LOGIN */}
+          <div className="user_forms-login">
+            <h2 className="forms_title">Login</h2>
+            <form className="forms_form" onSubmit={handleLogin}>
+              <fieldset className="forms_fieldset">
+                <div className="forms_field">
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="forms_field-input"
+                    required
+                    value={correo}
+                    onChange={(e) => setCorreo(e.target.value)}
+                  />
+                </div>
+                <div className="forms_field">
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    className="forms_field-input"
+                    required
+                    value={contrasena}
+                    onChange={(e) => setContrasena(e.target.value)}
+                  />
+                </div>
+              </fieldset>
+              <div className="forms_buttons">
+                <button type="button" className="forms_buttons-forgot">
+                  ¿Olvidaste tu contraseña?
+                </button>
+                <input
+                  type="submit"
+                  value="Log In"
+                  className="forms_buttons-action"
+                />
+              </div>
+            </form>
+          </div>
+
+          {/* FORMULARIO SIGNUP */}
+          <div className="user_forms-signup">
+            <h2 className="forms_title">Sign Up</h2>
+            <form className="forms_form" onSubmit={handleRegister}>
+              <fieldset className="forms_fieldset">
+                <div className="forms_field">
+                  <input
+                    type="text"
+                    placeholder="Nombre completo"
+                    className="forms_field-input"
+                    required
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                  />
+                </div>
+                <div className="forms_field">
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="forms_field-input"
+                    required
+                    value={correo}
+                    onChange={(e) => setCorreo(e.target.value)}
+                  />
+                </div>
+                <div className="forms_field">
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    className="forms_field-input"
+                    required
+                    value={contrasena}
+                    onChange={(e) => setContrasena(e.target.value)}
+                  />
+                </div>
+              </fieldset>
+              <div className="forms_buttons">
+                <input
+                  type="submit"
+                  value="Sign up"
+                  className="forms_buttons-action"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+        {error && (
+          <p style={{ color: "red", textAlign: "center", marginTop: "10px" }}>
+            {error}
+          </p>
+        )}
+      </div>
+    </section>
   );
-}
+};
 
 export default Login;
