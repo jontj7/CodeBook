@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
+import "../../styles/home.css";
 
 const Home = ({ usuario, onLogout }) => {
   const [rol, setRol] = useState("USUARIO");

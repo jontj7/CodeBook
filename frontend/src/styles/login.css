@@ -1,11 +1,13 @@
 * {
   box-sizing: border-box;
+  margin:0px;
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
+  font-family: 'Helvetica Neue', sans-serif;
   line-height: 1em;
+
+
 }
 
 button,
