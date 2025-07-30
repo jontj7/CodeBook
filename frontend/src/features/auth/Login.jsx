@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login, register } from "../../services/authService";
-import "../../styles/login.css"; // Asegúrate de que esté en .css plano
+import "../../styles/login.css";
 
-const Login = () => {
+const Login = ({ onLoginSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
@@ -16,9 +16,8 @@ const Login = () => {
     try {
       const usuario = await login(correo, contrasena);
       localStorage.setItem("usuario", JSON.stringify(usuario));
-      usuario.roles.includes("ADMIN")
-        ? navigate("/admin-panel")
-        : navigate("/home");
+      if (onLoginSuccess) onLoginSuccess(usuario); // 🔥 notifica al padre
+      navigate("/home");
     } catch (err) {
       setError("Credenciales incorrectas");
     }
@@ -28,13 +27,12 @@ const Login = () => {
     e.preventDefault();
     try {
       await register(nombre, correo, contrasena);
-      setIsLogin(true); // Vuelve al login
+      setIsLogin(true);
     } catch (err) {
       setError("Error al registrar");
     }
   };
 
-  // 🔁 Clases de animación dinámicas
   const animationClass = isLogin ? "bounceRight" : "bounceLeft";
 
   return (
