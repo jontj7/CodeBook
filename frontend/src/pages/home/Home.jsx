@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
+import UserHeader from "../../components/UserHeader"; // 👈 nuevo
 
 const Home = ({ usuario, onLogout }) => {
   const [rol, setRol] = useState("USUARIO");
@@ -15,12 +16,14 @@ const Home = ({ usuario, onLogout }) => {
   }
 
   return (
-    <div style={{ display: "flex" }}>
-      {/* ✅ Pasamos onLogout al Sidebar */}
+    <div style={{ display: "flex", position: "relative" }}>
       <Sidebar rol={rol} onLogout={onLogout} />
-      <main style={{ flex: 1, padding: "20px" }}>
+      <main style={{ flex: 1, padding: "20px", position: "relative" }}>
+        <UserHeader usuario={usuario} /> {/* ✅ Lo agregás aquí */}
         <h1>Bienvenido al Home</h1>
-        <p>Hola, <strong>{usuario.nombre || usuario.correo}</strong></p>
+        <p>
+          Hola, <strong>{usuario.nombre || usuario.correo}</strong>
+        </p>
       </main>
     </div>
   );
