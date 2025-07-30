@@ -1,19 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Sidebar from "../../components/Sidebar";
 
-const Home = () => {
-  const usuario = JSON.parse(localStorage.getItem("usuario"));
-  console.log("Usuario cargado:", usuario);
+const Home = ({ usuario, onLogout }) => {
+  const [rol, setRol] = useState("USUARIO");
+
+  useEffect(() => {
+    if (usuario) {
+      setRol(usuario.roles?.[0] || "USUARIO");
+    }
+  }, [usuario]);
+
+  if (!usuario) {
+    return <p>Cargando...</p>;
+  }
 
   return (
-    <div>
-      <h1>Test Home</h1>
-      {usuario ? (
-        <p>Bienvenido, {usuario.correo}</p>
-      ) : (
-        <p>No hay usuario guardado</p>
-      )}
+    <div style={{ display: "flex" }}>
+      {/* ✅ Pasamos onLogout al Sidebar */}
+      <Sidebar rol={rol} onLogout={onLogout} />
+      <main style={{ flex: 1, padding: "20px" }}>
+        <h1>Bienvenido al Home</h1>
+        <p>Hola, <strong>{usuario.nombre || usuario.correo}</strong></p>
+      </main>
     </div>
   );
 };
 
-export default Home; // 🔥 ESTA LÍNEA ES CLAVE
+export default Home;
