@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import UserHeader from "../../components/UserHeader"; // 👈 nuevo
 
-const Home = ({ usuario, onLogout }) => {
+const Gestion = ({ usuario, onLogout }) => {
   const [rol, setRol] = useState("USUARIO");
 
   useEffect(() => {
@@ -18,15 +18,13 @@ const Home = ({ usuario, onLogout }) => {
   return (
     <div style={{ display: "flex", position: "relative" }}>
       <Sidebar rol={rol} onLogout={onLogout} />
+      <UserHeader usuario={usuario} /> {/* ✅ Lo agregás aquí */}
       <main style={{ flex: 1, padding: "20px", position: "relative" }}>
-        <UserHeader usuario={usuario} /> {/* ✅ Lo agregás aquí */}
-        <h1>Bienvenido al Home</h1>
-        <p>
-          Hola, <strong>{usuario.nombre || usuario.correo}</strong>
-        </p>
+        <h1>Página de Gestión</h1>
+        <p>Contenido exclusivo para el rol <strong>{rol}</strong>.</p>
       </main>
     </div>
   );
 };
 
-export default Home;
+export default Gestion;

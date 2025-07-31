@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./features/auth/Login";
 import Home from "./pages/home/Home";
 import Register from "./features/auth/Register";
+import Gestion from "./pages/Gestion/index";
 
 const App = () => {
   const [usuario, setUsuario] = useState(() => {
@@ -27,6 +28,10 @@ const App = () => {
         <Route
           path="/home"
           element={usuario ? <Home usuario={usuario} onLogout={handleLogout} /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/gestion"
+          element={usuario ? <Gestion usuario={usuario} onLogout={handleLogout} /> : <Navigate to="/login" />}
         />
       </Routes>
     </BrowserRouter>
