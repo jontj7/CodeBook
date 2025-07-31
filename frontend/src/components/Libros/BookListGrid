@@ -1,0 +1,24 @@
+// frontend/src/components/books/BookListGrid.jsx
+import React from 'react';
+import BookCard from './BookCard';
+
+const BookListGrid = ({ books }) => {
+  if (!books || books.length === 0) {
+    return <p>No hay libros disponibles con este filtro.</p>;
+  }
+
+  return (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', // Ajusta el tamaño de la tarjeta
+      gap: '20px',
+      marginTop: '20px'
+    }}>
+      {books.map((book) => (
+        <BookCard key={book.id} book={book} />
+      ))}
+    </div>
+  );
+};
+
+export default BookListGrid;
