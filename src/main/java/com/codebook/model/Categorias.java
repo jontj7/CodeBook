@@ -18,7 +18,7 @@ public class Categorias {
     private String descripcion;
 
     public Categorias() {
-        // Constructor por defecto requerido por JPA
+
     }
 
     public Categorias(String nombre, String descripcion) {

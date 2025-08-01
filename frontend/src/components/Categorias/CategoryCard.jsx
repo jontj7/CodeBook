@@ -1,4 +1,4 @@
-// frontend/src/components/categories/CategoryCard.jsx
+
 import React from 'react';
 
 const CategoryCard = ({ category }) => {
@@ -7,10 +7,10 @@ const CategoryCard = ({ category }) => {
       border: '1px solid #e0e0e0',
       borderRadius: '8px',
       padding: '15px',
-      width: 'calc(50% - 20px)', // Para 2 columnas con espacio
+      width: 'calc(50% - 20px)',
       boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
       backgroundColor: '#fdfdfd',
-      cursor: 'pointer' // Podrías hacerlo clicable para filtrar directamente desde aquí
+      cursor: 'pointer'
     }}>
       <h4 style={{ margin: '0 0 5px 0', color: '#333' }}>{category.nombre}</h4>
       <p style={{ margin: '0', fontSize: '0.9em', color: '#666' }}>{category.descripcion}</p>

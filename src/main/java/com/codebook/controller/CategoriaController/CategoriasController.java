@@ -1,4 +1,4 @@
-package com.codebook.controller.CategoriaController; // O crea com.codebook.controller.categoria
+package com.codebook.controller.CategoriaController;
 
 import com.codebook.model.Categorias;
 import com.codebook.service.CategoriaService;
@@ -14,9 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.security.access.prepost.PreAuthorize; // Importación necesaria para @PreAuthorize
-// Si prefieres @Secured, también necesitarías:
-// import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 
 @RestController
 @RequestMapping("/api/categorias")
@@ -34,7 +33,7 @@ public class CategoriasController {
         return new Categorias(dto.getNombre(), dto.getDescripcion());
     }
 
-    // Cualquier usuario (incluso no autenticado) puede ver todas las categorías.
+    // Cualquier usuario puede ver todas las categorías.
     @GetMapping
     public List<CategoriaResponse> getAllCategorias() {
         return categoriasService.getAllCategorias().stream()
@@ -42,7 +41,7 @@ public class CategoriasController {
                 .collect(Collectors.toList());
     }
 
-    // Cualquier usuario (incluso no autenticado) puede ver una categoría por ID.
+    // Cualquier usuario puede ver una categoría por ID.
     @GetMapping("/{id}")
     public ResponseEntity<CategoriaResponse> getCategoriaById(@PathVariable Long id) {
         return categoriasService.getCategoriaById(id)
@@ -52,8 +51,7 @@ public class CategoriasController {
     }
 
     // Solo los usuarios con el rol 'ADMIN' pueden crear categorías.
-    // Asume que los roles en tu sistema se almacenan con el prefijo 'ROLE_'.
-    // Si tus roles son 'ADMIN' y 'USUARIO' sin prefijo, usa hasAuthority('ADMIN').
+
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')") // O @Secured("ROLE_ADMIN")
     public ResponseEntity<CategoriaResponse> createCategoria(@Valid @RequestBody CategoriaRequest categoriaDTO) {

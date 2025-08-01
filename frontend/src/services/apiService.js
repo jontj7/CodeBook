@@ -6,7 +6,7 @@ const API_BASE_URL = 'http://localhost:8080/api'; // Asegúrate de que esta sea 
 const apiService = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
   },
 });
 

@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/libros")
-@CrossOrigin(origins = "*") // Permite solicitudes desde cualquier origen (ajustar en producción)
+@CrossOrigin(origins = "*")
 public class LibroController {
 
     @Autowired
@@ -40,19 +40,19 @@ public class LibroController {
             return ResponseEntity.status(HttpStatus.CREATED).body(savedLibro);
         } catch (RuntimeException e) {
             // Manejar la excepción si la categoría no existe
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // O un objeto de error más detallado
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Libro> update(@PathVariable Long id, @RequestBody Libro libro) {
-        // Asegurarse de que el ID del path coincida con el ID del cuerpo si es relevante
+
         libro.setId(id);
         try {
             Libro updatedLibro = libroService.save(libro);
             return ResponseEntity.ok(updatedLibro);
         } catch (RuntimeException e) {
-            // Manejar la excepción si la categoría no existe o el libro no se encuentra
+
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
