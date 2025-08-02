@@ -14,14 +14,22 @@ const Login = ({ onLoginSuccess }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const usuario = await login(correo, contrasena);
+      const { token } = await login({ correo, contrasena });
+
+      // ✅ Guardar el token en localStorage
+      localStorage.setItem("token", token);
+
+      // ✅ Guardar el usuario (solo el correo, ya que no viene del backend)
+      const usuario = { correo };
       localStorage.setItem("usuario", JSON.stringify(usuario));
-      if (onLoginSuccess) onLoginSuccess(usuario); // 🔥 notifica al padre
-      navigate("/home");
+
+      if (onLoginSuccess) onLoginSuccess(usuario);
+      navigate("/home"); // o /gestion si preferís
     } catch (err) {
       setError("Credenciales incorrectas");
     }
   };
+
 
   const handleRegister = async (e) => {
     e.preventDefault();

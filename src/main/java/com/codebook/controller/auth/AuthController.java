@@ -7,6 +7,7 @@ import com.codebook.model.Usuario;
 import com.codebook.model.Rol;
 import com.codebook.repository.UsuarioRepository;
 import com.codebook.repository.RolRepository;
+import com.codebook.config.JwtUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,9 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByCorreo(request.getCorreo());
@@ -44,7 +48,12 @@ public class AuthController {
                         .map(Rol::getNombre)
                         .collect(Collectors.toSet());
 
+                // ✅ Generar token
+                String token = jwtUtils.generateToken(usuario.getCorreo());
+
+                // ✅ Devolver respuesta con token
                 LoginResponse response = new LoginResponse(
+                        token,
                         usuario.getId(),
                         usuario.getNombre(),
                         usuario.getCorreo(),
@@ -96,7 +105,6 @@ public class AuthController {
 
         return ResponseEntity.ok("Rol cambiado correctamente a " + nuevoRol + " ✅");
     }
-
 
     @PostMapping("/register-admin")
     public ResponseEntity<?> registerAdmin(@RequestBody RegisterRequest request) {
